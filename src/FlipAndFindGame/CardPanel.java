@@ -2,6 +2,8 @@ package FlipAndFindGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class CardPanel extends JButton {
@@ -14,10 +16,19 @@ public class CardPanel extends JButton {
     private ImageIcon temp;
     int columns = 5;
     int rows = 4;
+    private static int score = 0;
+    private boolean gameOver;
+    Timer myTimer;
+    int openImages;
+    public int currentIndex;
+    public int oddClickIndex;
+    public int numClicks;
 
     public CardPanel() {
         buttons = new JButton[20];
-        setLayout(null);
+//        setLayout(null);
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(100, 50, 80, 50));
         setBackground(Color.white);
         setVisible(true);
         addButtons();
@@ -29,31 +40,38 @@ public class CardPanel extends JButton {
         buttons = new JButton[numButtons];
         // Tạo mảng icons chứa các đối tượng ImageIcon để lưu trữ các biểu tượng (icon) cho các nút
         icons = new ImageIcon[numButtons];
-        // Khởi tạo một vòng lặp for để lặp qua tất cả các phần tử trong mảng pics. Biến i sẽ được sử dụng để truy cập mảng pics, còn biến j sẽ dùng để truy cập mảng buttons và icons
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.insets = new Insets(15, 15, 15, 15); // Khoảng cách giữa các nút
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0; // Chiếm đều không gian ngang
+        gbc.weighty = 1.0; // Chiếm đều không gian dọc
+
         for (int i = 0, j = 0; i < pics.length; i++) {
-            // Tạo nút thứ nhất
+            // Tạo biểu tượng
             icons[j] = new ImageIcon(this.getClass().getResource(pics[i]));
-            Image scaledImage = icons[j].getImage().getScaledInstance(245, 140, Image.SCALE_SMOOTH);
+            Image scaledImage = icons[j].getImage().getScaledInstance(90, 128, Image.SCALE_SMOOTH);
             icons[j] = new ImageIcon(scaledImage);
-            buttons[j] = new JButton();
-            buttons[j].setBounds(50 + (245 + 50) * (j % columns), 50 + (140 + 50) * (j / columns), 245, 140);
-            buttons[j].setIcon(cardBack);
-            // Thêm nút j vào CardPanel. j++ sẽ tăng j sau khi nút được thêm vào, để tiếp tục xử lý nút tiếp theo trong mảng
-            add(buttons[j++]);
 
-            // Tạo nút thứ hai
-            // Đặt biểu tượng cho nút thứ hai bằng với biểu tượng của nút trước đó (icons[j - 1]). Điều này đảm bảo rằng nút thứ hai có cùng hình ảnh với nút đầu tiên, vì chúng phải là cặp giống nhau trong trò chơi
-            icons[j] = icons[j - 1];
+            for (int k = 0; k < 2; k++) {
+                buttons[j] = new JButton();
+                buttons[j].setIcon(cardBack);
 
-            buttons[j] = new JButton();
-            buttons[j].setBounds(50 + (245 + 50) * (j % columns), 50 + (140 + 50) * (j / columns), 245, 140);
-            buttons[j].setIcon(cardBack);
-            add(buttons[j++]);
+                gbc.gridx = j % 5; // Cột
+                gbc.gridy = j / 5; // Hàng
+                add(buttons[j], gbc); // Thêm nút với GridBagConstraints
+                j++;
+
+
+            }
         }
+
+
         // Tạo một đối tượng Random để tạo các số ngẫu nhiên. Điều này sẽ được sử dụng để xáo trộn các biểu tượng của các nút.
         Random rnd = new Random();
         // Khởi tạo một vòng lặp for để lặp qua tất cả các nút.
-        for (int i = 0; i < numButtons; i++) {
+        for (int i = 0;
+             i < numButtons; i++) {
             // Tạo một số ngẫu nhiên j từ 0 đến numButtons - 1. j sẽ được dùng để hoán đổi các biểu tượng giữa các nút
             int j = rnd.nextInt(numButtons);
             // Tạo một biến tạm temp để lưu trữ biểu tượng của nút tại vị trí i
@@ -66,5 +84,7 @@ public class CardPanel extends JButton {
         }
     }
 }
+
+
 
 
