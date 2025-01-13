@@ -8,12 +8,12 @@ import java.util.Random;
 
 public class CardPanel extends JButton {
     private int numButtons;
-    private String[] pics = {"./img/darkness.jpg", "./img/dragon.jpg", "./img/fairy.jpg", "./img/fighting.jpg",
-            "./img/fire.jpg", "./img/grass.jpg", "./img/lightning.jpg", "./img/metal.jpg", "./img/psychic.jpg", "./img/water.jpg"};
+    private String[] pics = {"/FlipAndFindGame\\img\\darkness.jpg", "/FlipAndFindGame\\img\\dragon.jpg", "/FlipAndFindGame\\img\\fairy.jpg", "/FlipAndFindGame\\img\\fighting.jpg",
+            "/FlipAndFindGame\\img\\fire.jpg", "/FlipAndFindGame\\img\\grass.jpg", "/FlipAndFindGame\\img\\lightning.jpg", "/FlipAndFindGame\\img\\metal.jpg", "/FlipAndFindGame\\img\\psychic.jpg", "/FlipAndFindGame\\img\\water.jpg"};
     //    private String[] cardList = {"darkness", "double", "fairy", "fighting",
     //    "fire", "grass", "lightning", "metal", "psychic", "water"};
     private JButton[] buttons;
-    private ImageIcon cardBack = new ImageIcon(this.getClass().getResource("./img/back.jpg"));
+    private ImageIcon cardBack = new ImageIcon(this.getClass().getResource("/FlipAndFindGame\\img\\back.jpg"));
     private ImageIcon[] icons;
     private ImageIcon temp;
     private ImageIcon icon;
@@ -41,29 +41,29 @@ public class CardPanel extends JButton {
     public void addButtons() {
         numButtons = pics.length * 2;
         buttons = new JButton[numButtons];
-        // Tạo mảng icons chứa các đối tượng ImageIcon để lưu trữ các biểu tượng (icon) cho các nút
         icons = new ImageIcon[numButtons];
         GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.insets = new Insets(15, 15, 15, 15); // Khoảng cách giữa các nút
+        gbc.insets = new Insets(10, 10, 10, 10); // Khoảng cách giữa các nút
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0; // Chiếm đều không gian ngang
-        gbc.weighty = 1.0; // Chiếm đều không gian dọc
+
 
         int[] test = shuffleIcons();
         for (int i = 0, j = 0; i < test.length; i++) {
             // Tạo biểu tượng
-            buttons[i] = new JButton(String.valueOf(test[i]));
-            buttons[i].setPreferredSize(new Dimension(10, 10));
+            buttons[i]= new JButton();
+            buttons[i].setActionCommand(String.valueOf(test[i]));
+            buttons[i].setPreferredSize(new Dimension(100, 138));
+
             buttons[i].addActionListener(flip());
 
             // Set mặt lưng cho các nút
-            icons[i] = new ImageIcon("./img/back.jpg");
-            Image scaledImage = icons[j].getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
+            ImageIcon originalIcon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\back.jpg"));
+
+            Image scaledImage = originalIcon.getImage().getScaledInstance(100, 138, Image.SCALE_SMOOTH);
             icons[i] = new ImageIcon(scaledImage);
-            for (int k = 0; k < 20; k++) {
-                buttons[j].setIcon(cardBack);
-            }
+
+            // Set mặt lưng cho các nút
+            buttons[i].setIcon(icons[i]);
 
             // Chỉnh vị trí cho các nút
             gbc.gridx = j % 5; // Cột
@@ -72,6 +72,7 @@ public class CardPanel extends JButton {
             j++;
 
         }
+
     }
 
     // Trộn các nút ngẫu nhiên
@@ -100,7 +101,7 @@ public class CardPanel extends JButton {
                 String click = e.getActionCommand();
                 switch (click) {
                     case "1" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/dragon.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\double.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -108,7 +109,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "2" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/darkness.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\darkness.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -116,7 +117,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "3" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/fairy.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\fairy.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -124,7 +125,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "4" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/fighting.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\fighting.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -132,7 +133,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "5" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/fire.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\fire.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -140,7 +141,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "6" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/lightning.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\lightning.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -148,7 +149,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "7" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/metal.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\metal.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -156,7 +157,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "8" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/psychic.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\psychic.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -164,7 +165,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "9" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/grass.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\grass.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
@@ -172,7 +173,7 @@ public class CardPanel extends JButton {
                         break;
                     }
                     case "10" -> {
-                        icon = new ImageIcon(getClass().getResource("./img/water.jpg"));
+                        icon = new ImageIcon(getClass().getResource("/FlipAndFindGame\\img\\water.jpg"));
                         Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
                         icon = new ImageIcon(scaledImage);
                         button.setText("");
