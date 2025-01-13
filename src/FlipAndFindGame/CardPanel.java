@@ -2,16 +2,21 @@ package FlipAndFindGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class CardPanel extends JButton {
     private int numButtons;
-    private String[] pics = {"./img/darkness.jpg", "./img/double.jpg", "./img/fairy.jpg", "./img/fighting.jpg", "./img/fire.jpg", "./img/grass.jpg", "./img/lightning.jpg", "./img/metal.jpg", "./img/psychic.jpg", "./img/water.jpg"};
-    //    private String[] cardList = {"darkness", "double", "fairy", "fighting", "fire", "grass", "lightning", "metal", "psychic", "water"};
+    private String[] pics = {"./img/darkness.jpg", "./img/dragon.jpg", "./img/fairy.jpg", "./img/fighting.jpg",
+            "./img/fire.jpg", "./img/grass.jpg", "./img/lightning.jpg", "./img/metal.jpg", "./img/psychic.jpg", "./img/water.jpg"};
+    //    private String[] cardList = {"darkness", "double", "fairy", "fighting",
+    //    "fire", "grass", "lightning", "metal", "psychic", "water"};
     private JButton[] buttons;
     private ImageIcon cardBack = new ImageIcon(this.getClass().getResource("./img/back.jpg"));
     private ImageIcon[] icons;
     private ImageIcon temp;
+    private ImageIcon icon;
     int columns = 5;
     int rows = 4;
     private static int score = 0;
@@ -29,6 +34,7 @@ public class CardPanel extends JButton {
         setBackground(Color.white);
         setVisible(true);
         addButtons();
+
     }
 
     // Phương thức thêm Buttons vào CardPanel
@@ -47,16 +53,19 @@ public class CardPanel extends JButton {
         int[] test = shuffleIcons();
         for (int i = 0, j = 0; i < test.length; i++) {
             // Tạo biểu tượng
-            buttons[i] = new JButton(test[i] + "");
+            buttons[i] = new JButton(String.valueOf(test[i]));
             buttons[i].setPreferredSize(new Dimension(10, 10));
+            buttons[i].addActionListener(flip());
 
-            icons[i] = new ImageIcon("./img/darkness.jpg");
+            // Set mặt lưng cho các nút
+            icons[i] = new ImageIcon("./img/back.jpg");
             Image scaledImage = icons[j].getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
             icons[i] = new ImageIcon(scaledImage);
-
             for (int k = 0; k < 20; k++) {
                 buttons[j].setIcon(cardBack);
             }
+
+            // Chỉnh vị trí cho các nút
             gbc.gridx = j % 5; // Cột
             gbc.gridy = j / 5; // Hàng
             add(buttons[j], gbc); // Thêm nút với GridBagConstraints
@@ -65,6 +74,7 @@ public class CardPanel extends JButton {
         }
     }
 
+    // Trộn các nút ngẫu nhiên
     public int[] shuffleIcons() {
         int[] numbers = new int[20];
         for (int i = 0; i < 10; i++) {
@@ -80,6 +90,98 @@ public class CardPanel extends JButton {
             numbers[j] = temp;
         }
         return numbers;
+    }
+
+    public ActionListener flip() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton button = (JButton) e.getSource(); // Lấy nút đã nhấn
+                String click = e.getActionCommand();
+                switch (click) {
+                    case "1" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/dragon.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "2" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/darkness.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "3" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/fairy.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "4" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/fighting.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "5" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/fire.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "6" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/lightning.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "7" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/metal.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "8" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/psychic.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "9" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/grass.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                    case "10" -> {
+                        icon = new ImageIcon(getClass().getResource("./img/water.jpg"));
+                        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+                        icon = new ImageIcon(scaledImage);
+                        button.setText("");
+                        button.setIcon(icon);
+                        break;
+                    }
+                }
+            }
+        };
     }
 }
 
