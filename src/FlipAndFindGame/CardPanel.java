@@ -2,8 +2,6 @@ package FlipAndFindGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class CardPanel extends JButton {
@@ -26,7 +24,6 @@ public class CardPanel extends JButton {
 
     public CardPanel() {
         buttons = new JButton[20];
-//        setLayout(null);
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(100, 50, 80, 50));
         setBackground(Color.white);
@@ -47,41 +44,42 @@ public class CardPanel extends JButton {
         gbc.weightx = 1.0; // Chiếm đều không gian ngang
         gbc.weighty = 1.0; // Chiếm đều không gian dọc
 
-        for (int i = 0, j = 0; i < pics.length; i++) {
+        int[] test = shuffleIcons();
+        for (int i = 0, j = 0; i < test.length; i++) {
             // Tạo biểu tượng
-            icons[j] = new ImageIcon(this.getClass().getResource(pics[i]));
-            Image scaledImage = icons[j].getImage().getScaledInstance(90, 128, Image.SCALE_SMOOTH);
-            icons[j] = new ImageIcon(scaledImage);
+            buttons[i] = new JButton(test[i] + "");
+            buttons[i].setPreferredSize(new Dimension(10, 10));
 
-            for (int k = 0; k < 2; k++) {
-                buttons[j] = new JButton();
+            icons[i] = new ImageIcon("./img/darkness.jpg");
+            Image scaledImage = icons[j].getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
+            icons[i] = new ImageIcon(scaledImage);
+
+            for (int k = 0; k < 20; k++) {
                 buttons[j].setIcon(cardBack);
-
-                gbc.gridx = j % 5; // Cột
-                gbc.gridy = j / 5; // Hàng
-                add(buttons[j], gbc); // Thêm nút với GridBagConstraints
-                j++;
-
-
             }
-        }
-
-
-        // Tạo một đối tượng Random để tạo các số ngẫu nhiên. Điều này sẽ được sử dụng để xáo trộn các biểu tượng của các nút.
-        Random rnd = new Random();
-        // Khởi tạo một vòng lặp for để lặp qua tất cả các nút.
-        for (int i = 0;
-             i < numButtons; i++) {
-            // Tạo một số ngẫu nhiên j từ 0 đến numButtons - 1. j sẽ được dùng để hoán đổi các biểu tượng giữa các nút
-            int j = rnd.nextInt(numButtons);
-            // Tạo một biến tạm temp để lưu trữ biểu tượng của nút tại vị trí i
-            temp = icons[i];
-            // Gán biểu tượng của nút j cho nút i
-            icons[i] = icons[j];
-            // Gán biểu tượng tạm temp (biểu tượng ban đầu của nút i) cho nút j
-            icons[j] = temp;
+            gbc.gridx = j % 5; // Cột
+            gbc.gridy = j / 5; // Hàng
+            add(buttons[j], gbc); // Thêm nút với GridBagConstraints
+            j++;
 
         }
+    }
+
+    public int[] shuffleIcons() {
+        int[] numbers = new int[20];
+        for (int i = 0; i < 10; i++) {
+            numbers[i * 2] = i + 1;
+            numbers[i * 2 + 1] = i + 1;
+        }
+        Random rand = new Random();
+        for (int i = 0; i < numbers.length; i++) {
+            int j = rand.nextInt(numbers.length); // Chọn chỉ số ngẫu nhiên
+            // Hoán đổi phần tử tại vị trí i và j
+            int temp = numbers[i];
+            numbers[i] = numbers[j];
+            numbers[j] = temp;
+        }
+        return numbers;
     }
 }
 
