@@ -5,83 +5,73 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Login extends JFrame {
-    public static void main(String[] args) {
-        // Tạo JFrame
-        JFrame frame= new JFrame("Login");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400,400);
-        frame.setLayout(null);
-
-        // Thêm nền màu
-        JPanel panel = new JPanel();
-        panel.setBounds(0,0,400,400);
-        panel.setBackground(new Color(173,216,200));
-        panel.setLayout(null);
-        frame.add(panel);
-
-//Tạo JLabel và JTextField cho UserName
-        JLabel lblUsername = new JLabel("UserName:");
+public class Login extends JPanel {
+    private JLabel lblPassword;
+    private JPasswordField txtPassword;
+    private JButton exit;
+    private JButton login;
+    private JLabel lblUsername;
+    private JTextField txtUsername;
+    public Login() {
+        lblPassword = new JLabel();
+        txtPassword = new JPasswordField();
+        lblUsername = new JLabel();
+        txtUsername = new JTextField();
+        login = new JButton("Login");
+        exit = new JButton("Exit");
+        setBackground(new Color(173,216,200));
+        setLayout(null);
+        setBounds(0,0,400,400);
         lblUsername.setBounds(50,40,100,30);
         lblUsername.setForeground(Color.BLACK);
 
-        JTextField txtUsername = new JTextField();
         txtUsername.setBounds(120,30,180,35);
 
-        //Tạo JLabel và JPasswordField cho PassWord
-        JLabel lblPassword = new JLabel("PassWord:");
-        lblPassword.setBounds(50,100,100,30);
-        lblPassword.setForeground(Color.BLACK);// Màu chữ
+        login.setBounds(70,150,100,30);
 
-        JPasswordField txtPassword = new JPasswordField();
+        exit.setBounds(220,150,100,30);
+        exit.setBackground(new Color(220,20,60));
+        exit.setForeground(Color.white);
+
         txtPassword.setBounds(120,90,180,35);
 
-        //Tạo nút "Login"
-        JButton btnLogin = new JButton("Login");
-        btnLogin.setBounds(70,150,100,30);
-        // btnLogin.setFont(new Font("Tahoma",Font.BOLD,12));
-        btnLogin.setBackground(new Color(0,128,0));
-        btnLogin.setForeground(Color.WHITE);
+        lblPassword.setBounds(50,100,100,30);
+        lblPassword.setForeground(Color.BLACK);
 
-        // tạo nút "Exit"
-        JButton btnExit = new JButton("Exit"   );
-        btnExit.setBounds(220,150,100,30);
-        btnExit.setBackground(new Color(220,20,60));
-        btnExit.setForeground(Color.white);
+        login.addActionListener(loginButton());
 
-        //Thêm các JLabel và JTextField,JButton vào panel
-        panel.add(lblUsername);
-        panel.add(txtUsername);
-        panel.add(lblPassword);
-        panel.add(txtPassword);
-        panel.add(btnLogin);
-        panel.add(btnExit);
+        exit.addActionListener(exitButton());
+        add(lblPassword);
+        add(lblUsername);
+        add(login);
+        add(exit);
+        add(txtUsername);
+        add(txtPassword);
+    }
 
-        //Thêm chức năng cho nút "Login"
-        btnLogin.addActionListener(new ActionListener() {
+    public ActionListener loginButton() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = txtUsername.getText();
                 String password = new String(txtPassword.getPassword());
 
                 if(username.equals("admin")&& password.equals("1234567")) {
-                    JOptionPane.showMessageDialog(frame,"Đăng nhập thành công!");
+                    JOptionPane.showMessageDialog(null,"Đăng nhập thành công!");
                 } else {
-                    JOptionPane.showMessageDialog(frame,"Tên đăng nhập hoặc mật khẩu sai!");
+                    JOptionPane.showMessageDialog(null,"Tên đăng nhập hoặc mật khẩu sai!");
 
                 }
 
             }
-        });
-        // Thêm chức năng cho nút "Exit"
-        btnExit.addActionListener(new ActionListener() {
+        };
+    }
+    public ActionListener exitButton() {
+        return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
-        });
-//        Hiện thị giao diện
-        frame.setLocationRelativeTo(null);//Canh giữa màn hình
-        frame.setVisible(true);
+        };
     }
 }
