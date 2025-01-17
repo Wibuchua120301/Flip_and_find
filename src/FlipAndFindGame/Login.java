@@ -21,7 +21,7 @@ public class Login extends JPanel {
         exit = new JButton("Exit");
         setBackground(new Color(173,216,200));
         setLayout(null);
-        setBounds(0,0,400,400);
+        setBounds(0,0,getWidth(),getHeight());
         lblUsername.setBounds(50,40,100,30);
         lblUsername.setForeground(Color.BLACK);
 
@@ -56,7 +56,7 @@ public class Login extends JPanel {
                 String username = txtUsername.getText();
                 String password = new String(txtPassword.getPassword());
 
-                if(username.equals("admin")&& password.equals("1234567")) {
+                if(username.equals("a")&& password.equals("1")) {
                     JOptionPane.showMessageDialog(null,"Đăng nhập thành công!");
                 } else {
                     JOptionPane.showMessageDialog(null,"Tên đăng nhập hoặc mật khẩu sai!");
