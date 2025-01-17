@@ -4,33 +4,41 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.Random;
+import javax.swing.Timer;
 
 public class CardPanel extends JButton {
-    private int numButtons;
+    private Image background;
+    private ImageIcon iconBack;
     private JButton[] buttons;
     private ImageIcon cardBack = new ImageIcon("src\\FlipAndFindGame\\img\\back.jpg");
     private ImageIcon[] icons;
     private ImageIcon icon;
     private int count = 0;
-    private JButton[] clickButtons = new JButton[2];
+    private JButton[] clickButtons = new JButton[3];
 
     public CardPanel() {
         buttons = new JButton[10];
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder(100, 50, 80, 50));
-        setBackground(Color.white);
+        background = new ImageIcon("src\\FlipAndFindGame\\img\\Pokemon.jpg").getImage();
         setVisible(true);
         addButtons();
 
     }
 
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+    }
+
     // Phương thức thêm Buttons vào CardPanel
     public void addButtons() {
-        numButtons = 10;
-        buttons = new JButton[numButtons];
+        buttons = new JButton[10];
         // Tạo mảng icons chứa các đối tượng ImageIcon để lưu trữ các biểu tượng (icon) cho các nút
-        icons = new ImageIcon[numButtons];
+        icons = new ImageIcon[10];
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(15, 15, 15, 15); // Khoảng cách giữa các nút
@@ -40,18 +48,22 @@ public class CardPanel extends JButton {
 
         int[] test = shuffleIcons();
         for (int i = 0, j = 0; i < test.length; i++) {
-            // Tạo biểu tượng
             buttons[i] = new JButton(String.valueOf(test[i]));
             buttons[i].setPreferredSize(new Dimension(100, 138));
             buttons[i].addActionListener(flip());
 
-            // Set mặt lưng cho các nút
-            icons[i] = new ImageIcon("src\\FlipAndFindGame\\img\\back.jpg");
-            Image scaledImage = icons[j].getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH);
-            icons[i] = new ImageIcon(scaledImage);
-            for (int k = 0; k < 20; k++) {
-                buttons[j].setIcon(cardBack);
-            }
+            // Set mặt trước cho các nút
+            final int index = i;
+            buttons[i].addComponentListener(new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    int width = buttons[index].getWidth();
+                    int height = buttons[index].getHeight();
+                    ImageIcon cardBack = new ImageIcon("src\\FlipAndFindGame\\img\\back.jpg");
+                    Image scaledImage = cardBack.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                    icons[index] = new ImageIcon(scaledImage);
+                    buttons[index].setIcon(icons[index]);
+                }
+            });
 
             // Chỉnh vị trí cho các nút
             gbc.gridx = j % 5; // Cột
@@ -126,26 +138,65 @@ public class CardPanel extends JButton {
         icon = new ImageIcon(scaledImage);
         button.setIcon(icon);
     }
-    public void gamePlay(JButton button) {
-        if (count < 2) {
-            clickButtons[count] = button; // Lưu nút vừa nhấn vào mảng
-            count++;
-        }
 
+    public void gamePlay(JButton button) {
+        icon = new ImageIcon("src\\FlipAndFindGame\\img\\back.jpg");
+        Image scaledImage = icon.getImage().getScaledInstance(button.getWidth(), button.getHeight(), Image.SCALE_SMOOTH);
+        iconBack = new ImageIcon(scaledImage);
+        clickButtons[count] = button; // Lưu nút vừa nhấn vào mảng
+        count++;
         if (count == 2) {
-            if (clickButtons[0].getActionCommand().equals(clickButtons[1].getActionCommand())) {
+            if (clickButtons[0].getActionCommand().equals(clickButtons[1].getActionCommand()) && !(clickButtons[0].getLocation().equals(clickButtons[1].getLocation()))) {
                 // Trường hợp 2 nút giống nhau
-                clickButtons[0].setEnabled(false);
-                clickButtons[1].setEnabled(false);
-            } else {
-                // Trường hợp 2 nút khác nhau
-                clickButtons[0].setIcon(icon);
-                clickButtons[1].setIcon(icon);
+                clickButtons[0].setVisible(false);
+                clickButtons[1].setVisible(false);
+//            } else {
+//                clickButtons[0].setIcon(iconBack);
+//                clickButtons[1].setIcon(iconBack);
+            } else if ((clickButtons[0].getActionCommand().equals(clickButtons[1].getActionCommand()) && !(clickButtons[0].getLocation().equals(clickButtons[1].getLocation()))) == false) {
+                clickButtons[0].setIcon(iconBack);
+                clickButtons[1].setIcon(iconBack);
             }
-            clickButtons[0] = null;
-            clickButtons[1] = null;
-            count = 0;
+//            if (count == 3) {
+//                // Trường hợp 2 nút khác nhau
+//                // Tạo một Timer để trì hoãn việc đặt lại iconBack
+//                if (clickButtons[2].getActionCommand().equals(clickButtons[2].getActionCommand())) {
+//                    Timer timer = new Timer(0, e -> {
+//                        clickButtons[0].setIcon(iconBack);
+//                        clickButtons[1].setIcon(iconBack);
+//                        count = 0; // Reset lại đếm sau khi hoàn thành
+//                    });
+//                    timer.setRepeats(false); // Chỉ chạy một lần
+//                    timer.start();
+//                    return; // Tránh reset clickButtons và count ngay lập tức
+//                } else {
+//                    Timer timer = new Timer(1000, e -> {
+//                        clickButtons[0].setIcon(iconBack);
+//                        clickButtons[1].setIcon(iconBack);
+//                        count = 0; // Reset lại đếm sau khi hoàn thành
+//                    });
+//                    timer.setRepeats(false); // Chỉ chạy một lần
+//                    timer.start();
+//                    return;
+//                }
+//            } else if (!(clickButtons[0].getActionCommand().equals(clickButtons[1].getActionCommand()))) {
+//                Timer timer = new Timer(1000, e -> {
+//                    clickButtons[0].setIcon(iconBack);
+//                    clickButtons[1].setIcon(iconBack);
+//                    clickButtons[0] = null;
+//                    clickButtons[1] = null;
+//                    clickButtons[2] = null;
+//                    count = 0; // Reset lại đếm sau khi hoàn thành
+//                });
+//                timer.setRepeats(false); // Chỉ chạy một lần
+//                timer.start();
+//                return;
+//            }
         }
+        clickButtons[0] = null;
+        clickButtons[1] = null;
+        clickButtons[2] = null;
+        count = 0;
     }
 }
 
