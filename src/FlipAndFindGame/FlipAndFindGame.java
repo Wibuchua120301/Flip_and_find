@@ -11,7 +11,7 @@ public class FlipAndFindGame extends JFrame {
         login = new Login();
         this.add(login);
         panel = new FlipAndFindPanel();
-//        this.add(panel);
+        this.add(panel);
         setTitle("Flip and Find Game");
         setBackground(Color.white);
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
