@@ -12,7 +12,9 @@ public class Login extends JPanel {
     private JButton login;
     private JLabel lblUsername;
     private JTextField txtUsername;
+    private FlipAndFindGame mainFrame;
     public Login() {
+        this.mainFrame= mainFrame;
         lblPassword = new JLabel();
         txtPassword = new JPasswordField();
         lblUsername = new JLabel();
@@ -58,6 +60,10 @@ public class Login extends JPanel {
 
                 if(username.equals("admin")&& password.equals("1234567")) {
                     JOptionPane.showMessageDialog(null,"Đăng nhập thành công!");
+                    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(Login.this);
+                    if (topFrame instanceof FlipAndFindGame){
+                        ((FlipAndFindGame) topFrame).showPanel("GamePanel");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null,"Tên đăng nhập hoặc mật khẩu sai!");
 
@@ -74,4 +80,5 @@ public class Login extends JPanel {
             }
         };
     }
+
 }

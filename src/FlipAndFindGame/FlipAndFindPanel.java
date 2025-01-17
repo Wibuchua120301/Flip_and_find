@@ -9,7 +9,10 @@ public class FlipAndFindPanel extends JPanel {
     public FlipAndFindPanel() {
         setLayout(new BorderLayout());
         cp = new CardPanel();
-        add(cp,BorderLayout.CENTER);
+        add(cp, BorderLayout.CENTER);
+
+
+
 
 
     }
