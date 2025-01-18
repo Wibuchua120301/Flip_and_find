@@ -4,17 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FlipAndFindPanel extends JPanel {
-    private CardPanel cp;
+    private CardPanel cardPanel;
+    private ProgressBar progressBar;
 
     public FlipAndFindPanel() {
         setLayout(new BorderLayout());
-        cp = new CardPanel();
-        add(cp, BorderLayout.CENTER);
-
-
-
-
-
+        progressBar = new ProgressBar();
+        cardPanel = new CardPanel(progressBar);
+        add(progressBar, BorderLayout.NORTH);
+        add(cardPanel, BorderLayout.CENTER);
     }
-
 }
