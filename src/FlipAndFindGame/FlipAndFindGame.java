@@ -7,6 +7,7 @@ public class FlipAndFindGame extends JFrame {
     private FlipAndFindPanel panel;
     private Login login;
 
+
     public FlipAndFindGame() {
         login = new Login();
         this.add(login);
